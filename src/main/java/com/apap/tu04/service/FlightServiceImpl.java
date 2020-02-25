@@ -34,5 +34,17 @@ public class FlightServiceImpl implements FlightService{
 	public void deleteFlight(PilotModel pilot, String flightNumber) {
 		flightDb.deleteByPilotAndFlightNumber(pilot, flightNumber);
 	}
+
+	@Override
+	public FlightModel getFlight(PilotModel pilot, String flightNumber) {
+		// TODO Auto-generated method stub
+		return flightDb.findByPilotAndFlightNumber(pilot, flightNumber);
+	}
+
+	@Override
+	public void updateFlight(FlightModel flight) {
+		flightDb.save(flight);
+		
+	}
 	
 }

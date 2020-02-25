@@ -66,4 +66,17 @@ public class PilotController {
 				return "errPage.html";
 			}	
 	}
+
+	@RequestMapping(value= "/pilot/update/{licenseNumber}", method = RequestMethod.GET)
+	public String updatePilot(@PathVariable(value = "licenseNumber") String licenseNumber, Model model) {
+		PilotModel pilot = pilotService.getPilotDetailByLicenseNumber(licenseNumber);
+		model.addAttribute("pilot", pilot);
+		return "updatePilot.html";	
+	}
+	
+	@RequestMapping(value = "/pilot/update", method = RequestMethod.POST)
+	private String updatePilotSubmit(@ModelAttribute PilotModel pilot, Long id) {
+		pilotService.addPilot(pilot);
+		return "updateInfo.html";
+	}
 }

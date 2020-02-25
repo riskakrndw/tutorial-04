@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import com.apap.tu04.model.PilotModel;
 import com.apap.tu04.repository.PilotDb;
 
@@ -27,7 +29,12 @@ public class PilotServiceImpl implements PilotService{
 	}
 	
 	@Override
-	public void deletePilot(String licenseNumber) {
-		pilotDb.deleteByLicenseNumber(licenseNumber);
+	public void deletePilot(PilotModel pilot) {
+		pilotDb.delete(pilot);
+	}
+
+	@Override
+	public List<PilotModel> getAllPilot(){
+		return pilotDb.findAll();
 	}
 }

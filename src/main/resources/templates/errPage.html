@@ -4,7 +4,8 @@
 		<title>Error</title>
 	</head>
 	<body>
-		<h2>Flight number tidak ditemukan</h2>
+		<h3 th:text="${errMessage}">errMessage</h3>
+		<a th:href="@{'/'}">Beranda</a>
 	</body>
 
 </html>

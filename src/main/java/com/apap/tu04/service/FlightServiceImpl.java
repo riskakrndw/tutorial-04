@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import com.apap.tu04.model.FlightModel;
+import com.apap.tu04.model.PilotModel;
 import com.apap.tu04.repository.FlightDb;
 
 /**
@@ -23,8 +26,13 @@ public class FlightServiceImpl implements FlightService{
 	}
 	
 	@Override
-	public void deleteFlight(String flightNumber) {
-		flightDb.deleteByFlightNumber(flightNumber);
+	public List<FlightModel> getAllFlight(){
+		return flightDb.findAll();
+	}
+
+	@Override
+	public void deleteFlight(PilotModel pilot, String flightNumber) {
+		flightDb.deleteByPilotAndFlightNumber(pilot, flightNumber);
 	}
 	
 }

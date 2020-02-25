@@ -1,11 +1,15 @@
 package com.apap.tu04.service;
 
+import java.util.List;
+
 import com.apap.tu04.model.FlightModel;
+import com.apap.tu04.model.PilotModel;
 
 /**
  * FlightService
  */
 public interface FlightService {
 	void addFlight(FlightModel flight);
-	void deleteFlight(String flightNumber);
+	List<FlightModel> getAllFlight();
+	void deleteFlight(PilotModel pilot, String flightNumber);
 }

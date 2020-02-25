@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 import com.apap.tu04.model.PilotModel;
 import com.apap.tu04.service.PilotService;
 
@@ -21,7 +23,9 @@ public class PilotController {
 	private PilotService pilotService;
 	
 	@RequestMapping("/")
-	private String home() {
+	private String home(Model m) {
+		List<PilotModel> pilot = pilotService.getAllPilot();
+		m.addAttribute("pilot", pilot);
 		return "home";
 	}
 	
@@ -32,8 +36,9 @@ public class PilotController {
 	}
 	
 	@RequestMapping(value = "/pilot/add", method = RequestMethod.POST)
-	private String addPilotSubmit(@ModelAttribute PilotModel pilot) {
+	private String addPilotSubmit(@ModelAttribute PilotModel pilot, Model model) {
 		pilotService.addPilot(pilot);
+		model.addAttribute("errMesssage", "Data Berhasil Ditambahkan");
 		return "add";
 	}
 	
@@ -41,6 +46,7 @@ public class PilotController {
 	private String view(@RequestParam("licenseNumber") String licenseNumber, Model model) {
 		PilotModel pilot = pilotService.getPilotDetailByLicenseNumber(licenseNumber);
 		if(pilot==null) {
+			model.addAttribute("errMesssage", "Flight number tidak ditemukan");
 			return "errPage";
 		}else {
 			model.addAttribute("pilot", pilot);
@@ -49,9 +55,15 @@ public class PilotController {
 		}
 	}
 	
-	@RequestMapping("/pilot/delete/{licenseNumber}")
-	private String delete(@PathVariable(value = "licenseNumber") String licenseNumber) {
-		pilotService.deletePilot(licenseNumber);
-		return "delete";
+	@RequestMapping(value= "/pilot/delete/{licenseNumber}", method = RequestMethod.GET)
+	public String deletePilot(@PathVariable(value = "licenseNumber") String licenseNumber, Model model) {
+			try {
+			PilotModel pilot = pilotService.getPilotDetailByLicenseNumber(licenseNumber);
+			pilotService.deletePilot(pilot);
+			return "delete.html";	
+			} catch (Exception e) {
+				model.addAttribute("errMesssage", "Data Berhasil Dihapus");
+				return "errPage.html";
+			}	
 	}
 }
